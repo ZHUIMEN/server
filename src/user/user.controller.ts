@@ -39,8 +39,8 @@ export class UserController {
     )
     id?: number,
   ) {
+    console.log(id);
     if (id == 1) {
-      console.log(id);
       return this.userServer.findTestAll();
     }
     return this.userServer.findAll();

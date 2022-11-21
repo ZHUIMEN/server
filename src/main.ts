@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-
+// import { AllExceptionsFilter } from './common/exceptions/base.exception.filter';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { VersioningType, VERSION_NEUTRAL } from '@nestjs/common';
 import { initDoc } from './doc/swagger';
 
@@ -18,6 +19,9 @@ async function bootstrap() {
   });
   //全局前缀
   app.setGlobalPrefix('/api');
+  //全局过滤器
+  // app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalInterceptors(new TransformInterceptor());
   console.log('port: ', port);
   await app.listen(port);
 }
