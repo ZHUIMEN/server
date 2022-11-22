@@ -13,6 +13,7 @@ import {
   Inject,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Logger } from 'nestjs-pino';
 import { User } from 'src/entities/User.entity';
 import { UserDto } from './dto/index.dto';
 import { UserService } from './user.service';
@@ -25,7 +26,10 @@ import { UserService } from './user.service';
 export class UserController {
   @Inject('cjServer')
   private readonly cjServer: string[];
-  constructor(private readonly userServer: UserService) {}
+  constructor(
+    private readonly userServer: UserService,
+    private readonly logger: Logger,
+  ) {}
 
   @Get('userinfo')
   @Version([VERSION_NEUTRAL])
@@ -40,6 +44,8 @@ export class UserController {
     id?: number,
   ) {
     console.log(id);
+    this.logger.log('3333');
+    this.logger.warn('3333');
     if (id == 1) {
       return this.userServer.findTestAll();
     }
