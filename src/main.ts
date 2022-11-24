@@ -18,10 +18,12 @@ async function bootstrap() {
   });
 
   // logger
-  app.useLogger(app.get(Logger));
+  const LoggerService = app.get(Logger);
+  app.useLogger(LoggerService);
 
   const configService = app.get<ConfigService>(ConfigService);
   const port = configService.get<string>('PORT');
+
   //全局前缀
   app.setGlobalPrefix('/api');
 
@@ -37,11 +39,15 @@ async function bootstrap() {
 
   // swagger 注意顺序
   initDoc(app);
-  await app.listen(port);
-  return app;
+  await app.listen(port, () => {
+    LoggerService.log('main.ts', port);
+    LoggerService.log(
+      `服务已经启动,接口请访问:http://wwww.localhost:${port}/api`,
+    );
+    LoggerService.log(
+      `服务已经启动,文档请访问:http://wwww.localhost:${port}/apiDoc`,
+    );
+  });
 }
-bootstrap().then((e: INestApplication) => {
-  console.log('port: ', process.env.PORT);
 
-  e.get(Logger);
-});
+bootstrap();

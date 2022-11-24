@@ -11,24 +11,25 @@ import {
   Version,
   VERSION_NEUTRAL,
   Inject,
+  // Logger,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Logger } from 'nestjs-pino';
+import { PinoLogger, InjectPinoLogger } from 'nestjs-pino';
+import { UserException } from 'src/common/exceptions/user.exception.error';
 import { User } from 'src/entities/User.entity';
 import { UserDto } from './dto/index.dto';
 import { UserService } from './user.service';
 
-// const testFunc = (e) => {
-//   throw new HttpException('Forbidden', HttpStatus.FOUND);
-// };
 @ApiTags('用户信息')
 @Controller('user')
 export class UserController {
   @Inject('cjServer')
   private readonly cjServer: string[];
+  // private readonly loggers = new Logger(UserController.name);
   constructor(
+    @InjectPinoLogger(UserController.name)
+    private readonly logger: PinoLogger,
     private readonly userServer: UserService,
-    private readonly logger: Logger,
   ) {}
 
   @Get('userinfo')
@@ -43,11 +44,10 @@ export class UserController {
     )
     id?: number,
   ) {
-    console.log(id);
-    this.logger.log('3333');
-    this.logger.warn('3333');
     if (id == 1) {
-      return this.userServer.findTestAll();
+      // this.logger.info('test');
+      throw new UserException(40001, '无权访问');
+      // return this.userServer.findTestAll();
     }
     return this.userServer.findAll();
   }

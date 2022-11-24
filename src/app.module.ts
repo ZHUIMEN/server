@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { DatabaseModule } from './db/mysql.modules';
 import { UserModule } from './user/user.module';
 import { LoggerModule } from 'nestjs-pino';
@@ -19,14 +17,15 @@ import pino from 'pino';
       useFactory: async (configService: ConfigService) => {
         return {
           pinoHttp: pinoHttpOption(configService.get('NODE_ENV')),
+          // renameContext: 'a',
         };
       },
     }),
     DatabaseModule,
     UserModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
   exports: [],
 })
 export class AppModule {}

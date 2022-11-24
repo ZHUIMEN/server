@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { instanceToPlain } from 'class-transformer';
 interface Response<T> {
   data: T;
 }
@@ -23,13 +23,22 @@ export class TransformInterceptor<T>
     next: CallHandler,
   ): Observable<Response<T>> {
     return next.handle().pipe(
-      map((data) => ({
-        data,
-        status: 0,
-        extra: {},
-        message: 'success',
-        success: true,
-      })),
+      map((data) => {
+        // console.log('====================================');
+        // console.log(instanceToPlain(data));
+        // console.log('====================================');
+        // console.log(data);
+        // console.log('====================================');
+        // console.log('====================================');
+        return {
+          data,
+          code: 200,
+          status: 0,
+          extra: {},
+          message: 'success',
+          success: true,
+        };
+      }),
     );
   }
 }

@@ -1,9 +1,9 @@
 // pino-http 配置
 // https://github.com/pinojs/pino-http
 import { IncomingMessage } from 'http';
-import pino from 'pino';
-import { Options } from 'pino-http';
 
+import { Options } from 'pino-http';
+import getCaller from 'get-caller-file';
 export function pinoHttpOption(envDevMode = 'development'): Options {
   return {
     customAttributeKeys: {
@@ -45,30 +45,23 @@ export function pinoHttpOption(envDevMode = 'development'): Options {
         query: any;
         body: any;
       }) {
-        err.params = err.raw.params;
-        err.query = err.raw.query;
-        err.body = err.raw.body;
+        err.params = err.raw?.params;
+        err.query = err.raw?.query;
+        err.body = err.raw?.body;
         return err;
       },
     },
-    transport: {
-      target: 'pino-pretty',
-      options:
-        envDevMode == 'production'
-          ? {
+    transport:
+      envDevMode !== 'production'
+        ? {
+            target: 'pino-pretty',
+            options: {
               colorize: true, // 带颜色输出
               levelFirst: true,
               // 转换时间格式
               translateTime: 'yyyy-mm-dd HH:MM:ss.l o',
-            }
-          : {
-              colorize: false,
-              levelFirst: true,
-              translateTime: 'yyyy-mm-dd HH:MM:ss.l o',
-              //  保存日志到文件
-              destination: './log/combined.log',
-              mkdir: true,
             },
-    },
+          }
+        : null,
   };
 }
