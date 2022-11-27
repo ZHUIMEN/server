@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-// import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 @Module({
   imports: [
     // ConfigModule.forRoot({
@@ -30,9 +29,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         database: process.env.DATABASE_DB,
         autoLoadEntities: Boolean(process.env.DATABASE_DROPSCHEMA),
         synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE),
+        logging: true,
+        timezone: '+08:00', // 东八区
+        cache: {
+          duration: 60000, // 1分钟的缓存
+        },
+        extra: {
+          poolMax: 32,
+          poolMin: 16,
+          queueTimeout: 60000,
+          pollPingInterval: 60, // 每隔60秒连接
+          pollTimeout: 60, // 连接有效60秒
+        },
       }),
     }),
   ],
-  //   providers: [ConfigService],
 })
 export class DatabaseModule {}

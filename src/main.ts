@@ -3,11 +3,7 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { AllExceptionsFilter } from './common/exceptions/base.exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
-import {
-  VersioningType,
-  VERSION_NEUTRAL,
-  INestApplication,
-} from '@nestjs/common';
+import { VersioningType, VERSION_NEUTRAL, INestApplication } from '@nestjs/common';
 import { Logger } from 'nestjs-pino';
 import { initDoc } from './doc/swagger';
 
@@ -30,7 +26,7 @@ async function bootstrap() {
   //   TODO 接口版本化管理
   app.enableVersioning({
     type: VersioningType.URI,
-    defaultVersion: [VERSION_NEUTRAL, '1', '2'],
+    // defaultVersion: [VERSION_NEUTRAL, '1', '2'],
   });
 
   //全局过滤器
@@ -41,12 +37,8 @@ async function bootstrap() {
   initDoc(app);
   await app.listen(port, () => {
     LoggerService.log('main.ts', port);
-    LoggerService.log(
-      `服务已经启动,接口请访问:http://wwww.localhost:${port}/api`,
-    );
-    LoggerService.log(
-      `服务已经启动,文档请访问:http://wwww.localhost:${port}/apiDoc`,
-    );
+    LoggerService.log(`服务已经启动,接口请访问:http://wwww.localhost:${port}/api`);
+    LoggerService.log(`服务已经启动,文档请访问:http://wwww.localhost:${port}/apiDoc`);
   });
 }
 

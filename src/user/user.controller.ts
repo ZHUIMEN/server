@@ -46,7 +46,7 @@ export class UserController {
   ) {
     if (id == 1) {
       // this.logger.info('test');
-      throw new UserException(40001, '无权访问');
+      throw new UserException('无权访问', 40001);
       // return this.userServer.findTestAll();
     }
     return this.userServer.findAll();

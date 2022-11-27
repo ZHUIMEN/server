@@ -1,26 +1,24 @@
 import { Request, Response } from 'express';
 
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
-  Logger,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
-import { IsJSON } from 'class-validator';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   private readonly logger = new Logger(AllExceptionsFilter.name);
+
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     const status =
-      exception instanceof HttpException
-        ? exception.getStatus()
-        : HttpStatus.INTERNAL_SERVER_ERROR;
+      exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
     const now = new Date().toISOString();
     let resultMessage = exception.message;
     console.log('==========exception==========================');
@@ -63,7 +61,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     this.logger.error(
       `【${now}】${request.method} ${request.url}`,
       JSON.stringify(errorResponse),
-      'HttpExceptionFilter',
+      'HttpExceptionFilter'
     );
 
     // 设置返回的状态码、请求头、发送错误信息

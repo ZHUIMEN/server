@@ -1,7 +1,11 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class UserException extends HttpException {
-  constructor(code: number, message: string) {
-    super({ code, message }, HttpStatus.OK);
+  public message = '系统错误';
+  public code = 9999;
+
+  constructor(message?: string, code?: number) {
+    // this.message = message;
+    super({ code: code, message: message }, HttpStatus.OK);
   }
 }

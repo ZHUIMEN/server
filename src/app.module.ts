@@ -4,7 +4,9 @@ import { DatabaseModule } from './db/mysql.modules';
 import { UserModule } from './user/user.module';
 import { LoggerModule } from 'nestjs-pino';
 import { pinoHttpOption } from './common/logger/pino-http-option.config';
-import pino from 'pino';
+
+import { ApiModule } from '@src/api/api.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,6 +25,7 @@ import pino from 'pino';
     }),
     DatabaseModule,
     UserModule,
+    ApiModule,
   ],
   controllers: [],
   providers: [],
