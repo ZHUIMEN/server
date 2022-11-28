@@ -10,15 +10,16 @@ import { AccountModule } from '@src/api/account/account.module';
     AccountModule,
     RouterModule.register([
       {
-        path: PROJECT_PREFIX, // 指定项目名称
-        module: LoginModule,
+        path: PROJECT_PREFIX,
+        module: LoginModule, // 登录
       },
       {
-        path: PROJECT_PREFIX, // 指定项目名称
-        module: AccountModule,
+        path: PROJECT_PREFIX,
+        module: AccountModule, // 用户模块
       },
     ]),
   ],
+
   controllers: [],
   providers: [],
 })

@@ -25,28 +25,33 @@ import { UserService } from './user.service';
 export class UserController {
   @Inject('cjServer')
   private readonly cjServer: string[];
+
   // private readonly loggers = new Logger(UserController.name);
   constructor(
     @InjectPinoLogger(UserController.name)
     private readonly logger: PinoLogger,
-    private readonly userServer: UserService,
+    private readonly userServer: UserService
   ) {}
 
   @Get('userinfo')
   @Version([VERSION_NEUTRAL])
   userinfo(
     @Query(
-      'id',
+      'id'
       // new ParseIntPipe({
       //   errorHttpStatusCode: 501,
       //   // exceptionFactory: testFunc,
       // }),
     )
-    id?: number,
+    id?: number
   ) {
     if (id == 1) {
       // this.logger.info('test');
-      throw new UserException('无权访问', 40001);
+      // throw new UserException();
+      throw new UserException('用户名/手机号码/邮箱已经存在，不能重复创建', 9999, {
+        name: 222,
+        test: '22290',
+      });
       // return this.userServer.findTestAll();
     }
     return this.userServer.findAll();

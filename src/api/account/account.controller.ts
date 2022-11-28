@@ -9,7 +9,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
-  @Post()
+  @Post('create')
   create(@Body() createAccountDto: CreateAccountDto) {
     return this.accountService.create(createAccountDto);
   }

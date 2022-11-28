@@ -17,24 +17,12 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
     "paths": {
-      /*定义别名*/
-      "@src/*": [
-        "src/*"
-      ]
+      /*定义别名*/ "@src/*": ["src/*"]
     },
-    "typeRoots": [
-      /*类型声明文件*/
-      "./types",
-      "./node_modules/@types"
-    ],
-    "include": [
-      "src",
-      "ecosystem.config.js"
-    ],
-    "exclude": [
-      "dist"
-    ]
-  }
+    // "typeRoots": [/*类型声明文件*/ "./types", "./node_modules/@types"],
+    "noFallthroughCasesInSwitch": false
+  },
+  "include": ["src", "ecosystem.config.js"],
+  "exclude": ["node_modules", "dist"]
 }

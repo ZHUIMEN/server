@@ -35,9 +35,14 @@ export class AccountService {
         { email: createAccountDto.email },
       ],
     });
-    if (accountResult.id) {
+    this.logger.debug('accountResult%o', accountResult);
+    debugger;
+    if (accountResult?.id) {
       this.logger.info(`${createAccountDto.username}==[用户名/手机号码/邮箱已经存在，不能重复创建`);
-      throw new UserException('用户名/手机号码/邮箱已经存在，不能重复创建', 9999);
+      throw new UserException('用户名/手机号码/邮箱已经存在，不能重复创建', 9999, {
+        name: 222,
+        test: '22290',
+      });
     }
     const accountEntity = this.accountRepository.create(createAccountDto);
     await this.accountRepository.save(accountEntity);

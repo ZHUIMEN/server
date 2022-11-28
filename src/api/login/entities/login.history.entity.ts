@@ -1,7 +1,10 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, UpdateDateColumn } from 'typeorm';
 
 import { SharedEntity } from '@src/common/entities/base.entity';
-
+/**
+ * Error: ER_INVALID_DEFAULT: Invalid default value for 'login_time'  错误原因 时间戳导致
+ * https://github.com/typeorm/typeorm/issues/400
+ */
 @Entity('login_history')
 export class LoginHistoryEntity extends SharedEntity {
   @Column({
@@ -11,10 +14,12 @@ export class LoginHistoryEntity extends SharedEntity {
   })
   accountId!: number;
 
-  @Column({
+  @UpdateDateColumn({
     type: 'timestamp',
     name: 'login_time',
-    default: 'CURRENT_TIMESTAMP',
+    // nullable: false,
+    // onUpdate: true,
+    // default: 'CURRENT_TIMESTAMP',
     comment: '登录时间',
   })
   loginTime!: Date;

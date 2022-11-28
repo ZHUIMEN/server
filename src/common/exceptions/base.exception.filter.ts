@@ -21,10 +21,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
     const now = new Date().toISOString();
     let resultMessage = exception.message;
-    console.log('==========exception==========================');
-    console.log(resultMessage);
-    console.log(exception.getResponse());
-    console.log('====================================');
     let resultCode = 1;
     let resultParams = {};
     try {
@@ -32,17 +28,19 @@ export class AllExceptionsFilter implements ExceptionFilter {
         const { code, message, ...oth } = JSON.parse(resultMessage);
         resultMessage = message;
         resultCode = code;
-        resultParams = oth;
+        resultParams = Object.values(oth);
       } else {
-        const { code, message } = exception.getResponse() as {
+        const { code, message, ...oth } = exception.getResponse() as {
           code: number;
           message: string;
         };
+        this.logger.debug('其他参数:%o', oth);
         resultMessage = message;
         resultCode = code;
+        resultParams = Object.values(oth);
       }
     } catch (e) {
-      this.logger.log('错误解析错误', e);
+      this.logger.log('错误解析错误%o', e);
     }
 
     this.logger.log(exception, '错误提示');

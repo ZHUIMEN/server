@@ -4,6 +4,19 @@ import { IncomingMessage } from 'http';
 
 import { Options } from 'pino-http';
 import getCaller from 'get-caller-file';
+
+/**
+ * ===
+ *
+ * %s 字符串(整数、小数也可以打印)
+ * %d 整数
+ * %f 小数
+ * %o 对象
+ * %c 后面字符串的样式
+ *
+ * ===
+ * @param envDevMode
+ */
 export function pinoHttpOption(envDevMode = 'development'): Options {
   return {
     customAttributeKeys: {
@@ -13,11 +26,7 @@ export function pinoHttpOption(envDevMode = 'development'): Options {
       responseTime: '响应时间(ms)',
     },
     level: envDevMode !== 'production' ? 'debug' : 'info',
-    customLogLevel(
-      req: IncomingMessage,
-      res: { statusCode: number },
-      err: any,
-    ) {
+    customLogLevel(req: IncomingMessage, res: { statusCode: number }, err: any) {
       if (res.statusCode >= 400 && res.statusCode < 500) {
         return 'warn';
       } else if (res.statusCode >= 500 || err) {
