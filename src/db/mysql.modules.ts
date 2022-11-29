@@ -29,7 +29,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         database: process.env.DATABASE_DB,
         autoLoadEntities: Boolean(process.env.DATABASE_DROPSCHEMA),
         synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE),
-        logging: true,
+        logging: false,
         timezone: '+08:00', // 东八区
         cache: {
           duration: 60000, // 1分钟的缓存

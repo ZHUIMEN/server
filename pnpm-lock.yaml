@@ -28,6 +28,7 @@ specifiers:
   get-caller-file: ^2.0.5
   helmet: ^6.0.0
   jest: 28.1.3
+  lodash: ^4.17.21
   mysql: ^2.18.1
   nestjs-pino: ^3.1.1
   passport: ^0.6.0
@@ -63,6 +64,7 @@ dependencies:
   class-validator: registry.npmmirror.com/class-validator/0.13.2
   get-caller-file: registry.npmmirror.com/get-caller-file/2.0.5
   helmet: registry.npmmirror.com/helmet/6.0.0
+  lodash: registry.npmmirror.com/lodash/4.17.21
   mysql: registry.npmmirror.com/mysql/2.18.1
   nestjs-pino: registry.npmmirror.com/nestjs-pino/3.1.1_4xzwnf5772kimv3mqpybeyujna
   passport: registry.npmmirror.com/passport/0.6.0
