@@ -11,7 +11,8 @@ import { ApiErrorCode } from '@src/enums/api-error-code.enum';
 export class UserException extends HttpException {
   private static message = '系统错误';
   private static code = ApiErrorCode.ERROR;
-  constructor(msg?: string | Record<string, any>, code?: ApiErrorCode, ...oth: any[]) {
+
+  constructor(msg?: string | Record<string, any>, code?: ApiErrorCode | HttpStatus, ...oth: any[]) {
     super(
       { code: code ?? UserException.code, message: msg ?? UserException.message, ...oth },
       HttpStatus.OK

@@ -34,7 +34,9 @@
     "class-validator": "^0.13.2",
     "get-caller-file": "^2.0.5",
     "helmet": "^6.0.0",
+    "ioredis": "^5.2.4",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "mysql": "^2.18.1",
     "nestjs-pino": "^3.1.1",
     "passport": "^0.6.0",
@@ -45,7 +47,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "simp-node-auth": "^0.0.1",
-    "typeorm": "^0.3.0"
+    "typeorm": "^0.3.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

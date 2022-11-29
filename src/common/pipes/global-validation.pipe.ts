@@ -25,7 +25,6 @@ export class GlobalValidationPipe implements PipeTransform<any> {
 
     // 同步阻塞,返回校验结果
     const errors = await validate(object);
-    Logger.log('GlobalValidationPipe中错误%o', errors);
     if (errors.length > 0) {
       // 遍历全部的错误信息,返回给前端
       // const errorMessage = errors.map((item) => {

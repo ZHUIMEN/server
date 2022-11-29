@@ -1,12 +1,14 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from '@src/api/login/dto/login.dto';
 import { LoginVo } from '@src/api/login/vo/login.vo';
 import type { Request } from 'express';
 import { ApiResult } from '@src/common/decorators/apiResult.decorator';
+import { AuthGuard } from '@src/common/guard/auth.guard';
 
 @ApiTags('登录')
+// @UseGuards(AuthGuard)
 @Controller('login')
 // @ApiExtraModels(LoginVo)
 export class LoginController {

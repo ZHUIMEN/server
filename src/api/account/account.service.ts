@@ -1,13 +1,13 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateAccountDto } from './dto/create-account.dto';
-import { UpdateAccountDto } from './dto/update-account.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccountEntity } from '@src/api/account/entities/account.entity';
 import { Repository } from 'typeorm';
 import { LoginHistoryEntity } from '@src/api/login/entities/login.history.entity';
 import { UserException } from '@src/common/exceptions/user.exception.error';
-import { PinoLogger, InjectPinoLogger } from 'nestjs-pino';
+import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { ResultVo } from '@src/common/vo/result.vo';
+import { ApiErrorCode } from '@src/enums/api-error-code.enum';
 
 @Injectable()
 export class AccountService {
@@ -37,11 +37,12 @@ export class AccountService {
     });
     this.logger.debug('accountResult%o', accountResult);
     if (accountResult?.id) {
-      this.logger.info(`${createAccountDto.username}==[用户名/手机号码/邮箱已经存在，不能重复创建`);
-      throw new UserException('用户名/手机号码/邮箱已经存在，不能重复创建', 9999, {
-        name: 222,
-        test: '22290',
-      });
+      this.logger.info(`用户名/手机号码/邮箱已经存在，不能重复创建:${createAccountDto.username}`);
+      throw new UserException(
+        '用户名/手机号码/邮箱已经存在，不能重复创建',
+        ApiErrorCode.PARAMS_INVAL,
+        createAccountDto
+      );
     }
     const accountEntity = this.accountRepository.create(createAccountDto);
     await this.accountRepository.save(accountEntity);
