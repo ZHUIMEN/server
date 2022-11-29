@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { LoginModule } from '@src/api/login/login.module';
-import { RouterModule } from '@nestjs/core';
+import { APP_PIPE, RouterModule } from '@nestjs/core';
 import { PROJECT_PREFIX } from '@src/constants';
 import { AccountModule } from '@src/api/account/account.module';
+import { GlobalValidationPipe } from '@src/common/pipes/global-validation.pipe';
 
 @Module({
   imports: [
@@ -21,6 +22,11 @@ import { AccountModule } from '@src/api/account/account.module';
   ],
 
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: GlobalValidationPipe,
+    },
+  ],
 })
 export class ApiModule {}
