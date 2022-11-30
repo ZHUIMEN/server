@@ -25,6 +25,7 @@ export function pinoHttpOption(envDevMode = 'development'): Options {
       err: '错误信息',
       responseTime: '响应时间(ms)',
     },
+    // enabled: false,
     level: envDevMode !== 'production' ? 'debug' : 'info',
     customLogLevel(req: IncomingMessage, res: { statusCode: number }, err: any) {
       if (res.statusCode >= 400 && res.statusCode < 500) {
@@ -35,25 +36,14 @@ export function pinoHttpOption(envDevMode = 'development'): Options {
       return 'info';
     },
     serializers: {
-      req(req: {
-        httpVersion: any;
-        raw: { httpVersion: any; params: any; query: any; body: any };
-        params: any;
-        query: any;
-        body: any;
-      }) {
+      req(req: { httpVersion: any; raw: { httpVersion: any; params: any; query: any; body: any }; params: any; query: any; body: any }) {
         req.httpVersion = req.raw.httpVersion;
         req.params = req.raw.params;
         req.query = req.raw.query;
         req.body = req.raw.body;
         return req;
       },
-      err(err: {
-        params: any;
-        raw: { params: any; query: any; body: any };
-        query: any;
-        body: any;
-      }) {
+      err(err: { params: any; raw: { params: any; query: any; body: any }; query: any; body: any }) {
         err.params = err.raw?.params;
         err.query = err.raw?.query;
         err.body = err.raw?.body;
@@ -66,7 +56,7 @@ export function pinoHttpOption(envDevMode = 'development'): Options {
             target: 'pino-pretty',
             options: {
               colorize: true, // 带颜色输出
-              levelFirst: true,
+              // levelFirst: true,
               // 转换时间格式
               translateTime: 'yyyy-mm-dd HH:MM:ss.l o',
             },
