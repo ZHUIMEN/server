@@ -6,6 +6,7 @@ import { AccountModule } from '@src/api/account/account.module';
 import { GlobalValidationPipe } from '@src/common/pipes/global-validation.pipe';
 import { PluginModule } from '@src/plugin/plugin.module';
 import { RedisService } from '@src/plugin/redis/redis.service';
+import { AuthModule } from '@src/api/auth/auth.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { RedisService } from '@src/plugin/redis/redis.service';
       },
     ]),
     PluginModule,
+    AuthModule,
   ],
 
   controllers: [],

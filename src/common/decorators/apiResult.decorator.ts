@@ -1,10 +1,5 @@
-import {
-  getSchemaPath,
-  ApiOkResponse,
-  ApiResponse,
-  ApiExtraModels,
-  ApiDefaultResponse,
-} from '@nestjs/swagger';
+import { getSchemaPath, ApiOkResponse, ApiResponse, ApiExtraModels, ApiDefaultResponse } from '@nestjs/swagger';
+
 import { Type, applyDecorators } from '@nestjs/common';
 import { ResultVo } from '@src/common/vo/result.vo';
 
@@ -17,11 +12,7 @@ const baseTypeNames = ['String', 'Number', 'Boolean'];
  * @param isArray data 是否是数组
  * @param isPager 设置为 true, 则 data 类型为 { list, total } ,  false data 类型是纯数组
  */
-export const ApiResult = <TModel extends Type<any>>(
-  model?: TModel,
-  isArray?: boolean,
-  isPager?: boolean
-) => {
+export const ApiResult = <TModel extends Type<any>>(model?: TModel, isArray?: boolean, isPager?: boolean) => {
   let items = null;
   if (model && baseTypeNames.includes(model.name)) {
     items = { type: model.name.toLocaleLowerCase() };

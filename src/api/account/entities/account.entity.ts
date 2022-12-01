@@ -93,18 +93,14 @@ export class AccountEntity extends SharedEntity {
   @BeforeInsert()
   generateUserNameOrEmailOrMobile(): void {
     if (this.username) {
-      this.mobile =
-        this.mobile && isMobilePhone(this.mobile, 'zh-CN') ? this.mobile : `_${this.username}`;
+      this.mobile = this.mobile && isMobilePhone(this.mobile, 'zh-CN') ? this.mobile : `_${this.username}`;
       this.email = this.email && isEmail(this.email) ? this.email : `_${this.username}`;
     } else if (this.mobile) {
-      this.username =
-        this.username && usernameReg.test(this.username) ? this.username : `_${this.mobile}`;
+      this.username = this.username && usernameReg.test(this.username) ? this.username : `_${this.mobile}`;
       this.email = this.email && isEmail(this.email) ? this.email : `_${this.mobile}`;
     } else if (this.email) {
-      this.username =
-        this.username && usernameReg.test(this.username) ? this.username : `_${this.email}`;
-      this.mobile =
-        this.mobile && isMobilePhone(this.mobile, 'zh-CN') ? this.mobile : `_${this.email}`;
+      this.username = this.username && usernameReg.test(this.username) ? this.username : `_${this.email}`;
+      this.mobile = this.mobile && isMobilePhone(this.mobile, 'zh-CN') ? this.mobile : `_${this.email}`;
     }
   }
 

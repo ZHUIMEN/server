@@ -1,17 +1,11 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { RedisService } from '@src/plugin/redis/redis.service';
 import { getUrlQuery } from '@src/utils';
 import { UserException } from '@src/common/exceptions/user.exception.error';
 import { ApiErrorCode } from '@src/enums/api-error-code.enum';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class TokenAuthGuard implements CanActivate {
   constructor(private readonly redisService: RedisService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

@@ -48,4 +48,14 @@ export class AccountService {
     await this.accountRepository.save(accountEntity);
     return ResultVo.ok<boolean>(true, '创建成功');
   }
+
+  /**
+   * 查找用户是否存在
+   * @param username
+   */
+  async findByUsername(username: string) {
+    return this.accountRepository.findOne({
+      where: { username },
+    });
+  }
 }

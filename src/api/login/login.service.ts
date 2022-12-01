@@ -17,6 +17,8 @@ import { LoginHistoryEntity } from '@src/api/login/entities/login.history.entity
 import { ConfigService } from '@nestjs/config';
 // import moment from 'moment';
 import moment = require('moment');
+import { LoginVo } from '@src/api/login/vo/login.vo';
+
 const a = moment().add('7', 'days').format('YYYY-MM-DD HH:mm:ss');
 console.log(a);
 type findAccountType = Omit<AccountEntity, 'created_at' | 'updated_at'>;
@@ -37,7 +39,7 @@ export class LoginService {
     private readonly dataSource: DataSource
   ) {}
 
-  async login(loginDto: LoginDto, request: Request) {
+  async login(loginDto: LoginDto, request: Request): Promise<LoginVo> {
     const ipAddress = this.toolsService.getReqIP(request);
     const { username, password } = loginDto;
 
@@ -76,6 +78,7 @@ export class LoginService {
           email: isEmail(accountEntity.email) ? accountEntity.email : '',
           mobile: isMobilePhone(accountEntity.mobile, 'zh-CN') ? accountEntity.mobile : '',
           isSuper: accountEntity.isSuper,
+          isSuperStr: accountEntity.isSuperStr(),
         };
       } catch (error: any) {
         throw new UserException(error.message);
@@ -110,7 +113,11 @@ export class LoginService {
    * @return {*}
    */
 
-  private async cacheTokenAndLoginInfo(accountEntity: findAccountType, token: string, ipAddress: string): Promise<void> {
+  private async cacheTokenAndLoginInfo(
+    accountEntity: findAccountType,
+    token: string,
+    ipAddress: string
+  ): Promise<void> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction(); // 开启事物
@@ -131,10 +138,11 @@ export class LoginService {
       });
       await queryRunner.manager.save<LoginHistoryEntity>(loginHistoryEntity);
       // 更新账号token表
-      const accountTokenEntity: Pick<AccountTokenEntity, 'token' | 'id'> | null = await this.accountTokenRepository.findOne({
-        where: { accountId: accountEntity.id },
-        select: ['token', 'id'],
-      });
+      const accountTokenEntity: Pick<AccountTokenEntity, 'token' | 'id'> | null =
+        await this.accountTokenRepository.findOne({
+          where: { accountId: accountEntity.id },
+          select: ['token', 'id'],
+        });
       const tokenExpire: number = this.configService.get('TOKEN_EXPIRE') ?? 1;
 
       // 存在就更新，否则就创建
@@ -152,11 +160,14 @@ export class LoginService {
           }
         );
       } else {
-        const accountCreateResult: AccountTokenEntity = queryRunner.manager.create<AccountTokenEntity>(AccountTokenEntity, {
-          accountId: accountEntity.id,
-          token: token,
-          expireTime: moment().add(tokenExpire, 'days').format('YYYY-MM-DD HH:mm:ss'),
-        });
+        const accountCreateResult: AccountTokenEntity = queryRunner.manager.create<AccountTokenEntity>(
+          AccountTokenEntity,
+          {
+            accountId: accountEntity.id,
+            token: token,
+            expireTime: moment().add(tokenExpire, 'days').format('YYYY-MM-DD HH:mm:ss'),
+          }
+        );
         await queryRunner.manager.save<AccountTokenEntity>(accountCreateResult);
       }
       // 提交事务
