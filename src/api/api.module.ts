@@ -7,11 +7,15 @@ import { GlobalValidationPipe } from '@src/common/pipes/global-validation.pipe';
 import { PluginModule } from '@src/plugin/plugin.module';
 import { RedisService } from '@src/plugin/redis/redis.service';
 import { AuthModule } from '@src/api/auth/auth.module';
+import { ToolsService } from '@src/plugin/tools/tools.service';
+import { AccountService } from '@src/api/account/account.service';
 
 @Module({
   imports: [
     LoginModule,
     AccountModule,
+    PluginModule,
+    AuthModule,
     RouterModule.register([
       {
         path: PROJECT_PREFIX,
@@ -22,17 +26,15 @@ import { AuthModule } from '@src/api/auth/auth.module';
         module: AccountModule, // 用户模块
       },
     ]),
-    PluginModule,
-    AuthModule,
   ],
-
-  controllers: [],
   providers: [
     {
       provide: APP_PIPE,
       useClass: GlobalValidationPipe,
     },
     RedisService,
+    ToolsService,
+    // AccountService,
   ],
 })
 export class ApiModule {}

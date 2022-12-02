@@ -8,13 +8,18 @@ import { AccountService } from '@src/api/account/account.service';
 import { AccountEntity } from '@src/api/account/entities/account.entity';
 import { ToolsService } from '@src/plugin/tools/tools.service';
 import { SharedEntity } from '@src/common/entities/base.entity';
+import { IpToAddressService } from '@src/plugin/ip-to-address/ip-to-address.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    public readonly toolsService: ToolsService,
-    private userService: AccountService // private jwtService: JwtService,
-  ) {}
+    private redis: IpToAddressService,
+    private readonly toolsService: ToolsService,
+    private userService: AccountService // private jwtService: JwtService
+  ) {
+    console.log('ToolsService', ToolsService.name);
+    console.log('AccountService', AccountService.name);
+  }
 
   async validateUser(username: string, password: string): Promise<null | Partial<AccountEntity>> {
     const existUser = await this.userService.findByUsername(username);

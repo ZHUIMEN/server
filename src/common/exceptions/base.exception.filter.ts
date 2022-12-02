@@ -1,13 +1,6 @@
 import { Request, Response } from 'express';
 
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-  Logger,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { UserException } from '@src/common/exceptions/user.exception.error';
 import { ApiErrorCode } from '@src/enums/api-error-code.enum';
 import { ApiException } from '@src/common/exceptions/api.exception.error';
@@ -20,8 +13,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const status =
-      exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+    const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
     let resultMessage = exception.message;
     let resultCode = ApiErrorCode.ERROR; // 自定义code
     let resultParams = {}; // 其他错误参数
@@ -40,20 +32,20 @@ export class AllExceptionsFilter implements ExceptionFilter {
         resultCode = exception.getErrorCode();
         resultMessage = exception.getErrorMessage();
       } else {
-        console.warn('====', resultMessage);
+        console.error('程序错误====', resultMessage);
         const { code, message, ...oth } = JSON.parse(resultMessage);
-        resultMessage = message;
+        resultMessage = resultMessage;
         resultCode = code;
         resultParams = Object.values(oth);
       }
     } catch (e) {
-      this.logger.debug('错误解析错误', e);
+      this.logger.log('未拦截到自定义错误，导致解析错误：', e);
     }
     const errorResponse = {
       status,
       message: resultMessage,
       code: resultCode, // 自定义code
-      params: resultParams,
+      params: Array.isArray(resultParams) ? resultParams : exception.stack,
       path: request.url, // 错误的url地址
       method: request.method, // 请求方式
       timestamp: new Date().toLocaleDateString(), // 错误的时间

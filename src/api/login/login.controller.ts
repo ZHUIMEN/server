@@ -7,6 +7,7 @@ import type { Request } from 'express';
 import { ApiResult } from '@src/common/decorators/apiResult.decorator';
 import { TokenAuthGuard } from '@src/common/guard/token.auth.guard';
 import { User } from '@src/common/decorators/user.decorator';
+import { LocalAuthGuard } from '@src/common/guard/local.auth';
 
 @ApiTags('登录')
 // @UseGuards(TokenAuthGuard)
@@ -15,6 +16,7 @@ import { User } from '@src/common/decorators/user.decorator';
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
+  @UseGuards(LocalAuthGuard)
   @Post()
   @ApiOperation({
     summary: '登录login',
@@ -26,7 +28,7 @@ export class LoginController {
   }
 
   @ApiOperation({
-    summary: '用户信息',
+    summary: '用户信息 test 自定义装饰器',
   })
   @Get()
   async userinfo(@User('name') name: LoginDto) {

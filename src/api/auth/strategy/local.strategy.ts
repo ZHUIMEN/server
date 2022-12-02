@@ -20,9 +20,9 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     const contextId = ContextIdFactory.getByRequest(request);
 
     // 现在 authService 是一个 request-scoped provider
-    const authService = await this.moduleRef.resolve(AuthService, contextId);
+    const userService = await this.moduleRef.resolve<AuthService>(AuthService, contextId);
 
-    const user = await authService.validateUser(username, password);
+    const user = await userService.validateUser(username, password);
 
     if (!user) {
       this.logger.error('无法登录');
