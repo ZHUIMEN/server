@@ -6,8 +6,6 @@ import { LocalStrategy } from '@src/api/auth/strategy/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '@src/constants';
 import { JwtStrategy } from '@src/api/auth/strategy/jwt.strategy';
-
-@Global()
 @Module({
   imports: [
     AccountModule,

@@ -5,10 +5,12 @@ import { PROJECT_PREFIX } from '@src/constants';
 import { AccountModule } from '@src/api/account/account.module';
 import { GlobalValidationPipe } from '@src/common/pipes/global-validation.pipe';
 import { PluginModule } from '@src/plugin/plugin.module';
-import { RedisService } from '@src/plugin/redis/redis.service';
+
 import { AuthModule } from '@src/api/auth/auth.module';
-import { ToolsService } from '@src/plugin/tools/tools.service';
+
 import { JwtAuthGuard } from '@src/common/guard/jwt.auth.guard';
+import { LoginService } from '@src/api/login/login.service';
+import { AccountService } from '@src/api/account/account.service';
 import { AuthService } from '@src/api/auth/auth.service';
 
 @Module({
@@ -38,8 +40,6 @@ import { AuthService } from '@src/api/auth/auth.service';
       useClass: ClassSerializerInterceptor,
     },
     { provide: APP_GUARD, useClass: JwtAuthGuard },
-    RedisService,
-    ToolsService,
   ],
 })
 export class ApiModule {}

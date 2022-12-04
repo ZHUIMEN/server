@@ -22,9 +22,9 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   async validate(request: Request, username: string, password: string): Promise<Partial<AccountEntity>> {
     const contextId = ContextIdFactory.getByRequest(request);
     // 现在 authService 是一个 request-scoped provider
-    const userService = await this.moduleRef.resolve<AuthService>(AuthService, contextId);
+    const authService = await this.moduleRef.resolve<AuthService>(AuthService, contextId);
 
-    const user = await userService.validateUser(username, password);
+    const user = await authService.validateUser(username, password);
 
     if (!user) {
       this.logger.error('无法登录');

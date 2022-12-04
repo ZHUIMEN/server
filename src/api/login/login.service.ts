@@ -19,25 +19,23 @@ import { ConfigService } from '@nestjs/config';
 import moment = require('moment');
 import { LoginVo } from '@src/api/login/vo/login.vo';
 import { AuthService } from '@src/api/auth/auth.service';
-
-const a = moment().add('7', 'days').format('YYYY-MM-DD HH:mm:ss');
-console.log(a);
-type findAccountType = Omit<AccountEntity, 'created_at' | 'updated_at'>;
+import { FindAccountType } from '@src/types';
+import { AccountService } from '@src/api/account/account.service';
 
 @Injectable()
 export class LoginService {
   constructor(
     @InjectPinoLogger(LoginService.name)
     private readonly logger: PinoLogger,
-    @InjectRepository(AccountEntity)
-    private readonly accountRepository: Repository<AccountEntity>,
     @InjectRepository(AccountTokenEntity)
     private readonly accountTokenRepository: Repository<AccountTokenEntity>,
     public readonly toolsService: ToolsService,
     public readonly ipToAddressService: IpToAddressService,
     public readonly redisService: RedisService,
+    public readonly accountService: AccountService,
     public readonly configService: ConfigService,
-    private readonly dataSource: DataSource // private readonly authService: AuthService
+    private readonly dataSource: DataSource,
+    private readonly authService: AuthService
   ) {
     // console.log(this.authService);
   }
@@ -47,9 +45,9 @@ export class LoginService {
     const { username, password } = loginDto;
 
     this.logger.debug('ip地址%s', ipAddress);
-    const queryBuilder = this.queryLoginBuilder;
+    const queryBuilder = this.accountService.queryLoginBuilder;
     this.logger.debug('sql%s', queryBuilder.getSql());
-    let accountEntity: findAccountType | null | undefined;
+    let accountEntity: FindAccountType<AccountEntity> | null | undefined;
 
     let usernameRep = username;
 
@@ -71,8 +69,8 @@ export class LoginService {
     }
     if (accountEntity?.id && this.toolsService.checkPassword(password, accountEntity.password)) {
       // 生成token存储到token表中并且返回给前端
-      const token = this.toolsService.uuidToken;
-      // const token = this.authService.createJwt(accountEntity.id);
+      // const token = this.toolsService.uuidToken;
+      const token = this.authService.createJwt(accountEntity.id);
       try {
         await this.cacheTokenAndLoginInfo(accountEntity, ipAddress, token);
         console.log('accountEntity', accountEntity);
@@ -94,22 +92,6 @@ export class LoginService {
   }
 
   /**
-   * @Description: 内部拼装sql
-   * @private
-   */
-  public get queryLoginBuilder(): SelectQueryBuilder<findAccountType> {
-    return this.accountRepository
-      .createQueryBuilder('account')
-      .select('account.id', 'id')
-      .addSelect('account.username', 'username')
-      .addSelect('account.mobile', 'mobile')
-      .addSelect('account.email', 'email')
-      .addSelect('account.status', 'status')
-      .addSelect('account.isSuper', 'isSuper')
-      .addSelect('account.password', 'password');
-  }
-
-  /**
    * @Description: 将token存储到redis中和数据库中
    * @param {findAccountType} accountEntity
    * @param {string} token
@@ -118,7 +100,7 @@ export class LoginService {
    */
 
   private async cacheTokenAndLoginInfo(
-    accountEntity: findAccountType,
+    accountEntity: FindAccountType<AccountEntity>,
     token: string,
     ipAddress: string
   ): Promise<void> {

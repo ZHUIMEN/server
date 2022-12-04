@@ -1,19 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccountEntity } from '@src/api/account/entities/account.entity';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { LoginHistoryEntity } from '@src/api/login/entities/login.history.entity';
 import { UserException } from '@src/common/exceptions/user.exception.error';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { ResultVo } from '@src/common/vo/result.vo';
 import { ApiErrorCode } from '@src/enums/api-error-code.enum';
-import { LoginService } from '@src/api/login/login.service';
+import { FindAccountType } from '@src/types';
 
 @Injectable()
 export class AccountService {
   constructor(
-    private readonly loginService: LoginService,
     @InjectPinoLogger(AccountService.name)
     private readonly logger: PinoLogger,
     @InjectRepository(AccountEntity)
@@ -60,17 +59,30 @@ export class AccountService {
     // const account = await this.accountRepository.findOne({
     //   where: { username },
     // });
-    const account = await this.loginService.queryLoginBuilder
-      .where('(account.username = :username)', { username })
-      .getRawOne();
+    const account = await this.queryLoginBuilder.where('(account.username = :username)', { username }).getRawOne();
 
     return account;
+  }
+  /**
+   * @Description: 内部拼装sql
+   * @private
+   */
+  public get queryLoginBuilder(): SelectQueryBuilder<FindAccountType<AccountEntity>> {
+    return this.accountRepository
+      .createQueryBuilder('account')
+      .select('account.id', 'id')
+      .addSelect('account.username', 'username')
+      .addSelect('account.mobile', 'mobile')
+      .addSelect('account.email', 'email')
+      .addSelect('account.status', 'status')
+      .addSelect('account.isSuper', 'isSuper')
+      .addSelect('account.password', 'password');
   }
 
   /**
    * 通过id查找
    */
-  async findByUserId(id: number) {
-    return this.accountRepository.findOne({ where: { id } });
+  async findByUserId(id: number): Promise<AccountEntity> {
+    return await this.accountRepository.findOne({ where: { id } });
   }
 }

@@ -11,7 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthService {
   constructor(
     private readonly toolsService: ToolsService,
-    private userService: AccountService,
+    private accountService: AccountService,
     private jwtService: JwtService
   ) {
     console.log('ToolsService', ToolsService.name);
@@ -20,7 +20,7 @@ export class AuthService {
   }
 
   async validateUser(username: string, password: string): Promise<null | Partial<AccountEntity>> {
-    const existUser = await this.userService.findByUsername(username);
+    const existUser = await this.accountService.findByUsername(username);
 
     if (!existUser) {
       return null;
@@ -34,6 +34,10 @@ export class AuthService {
 
     const { password: ignorePass, ...restUser } = existUser;
     return restUser;
+  }
+
+  public async validateJwt(sub: number) {
+    return await this.accountService.findByUserId(sub);
   }
 
   public createJwt(sub) {
