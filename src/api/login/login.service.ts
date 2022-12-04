@@ -18,6 +18,7 @@ import { ConfigService } from '@nestjs/config';
 // import moment from 'moment';
 import moment = require('moment');
 import { LoginVo } from '@src/api/login/vo/login.vo';
+import { AuthService } from '@src/api/auth/auth.service';
 
 const a = moment().add('7', 'days').format('YYYY-MM-DD HH:mm:ss');
 console.log(a);
@@ -36,8 +37,10 @@ export class LoginService {
     public readonly ipToAddressService: IpToAddressService,
     public readonly redisService: RedisService,
     public readonly configService: ConfigService,
-    private readonly dataSource: DataSource
-  ) {}
+    private readonly dataSource: DataSource // private readonly authService: AuthService
+  ) {
+    // console.log(this.authService);
+  }
 
   async login(loginDto: LoginDto, request: Request): Promise<LoginVo> {
     const ipAddress = this.toolsService.getReqIP(request);
@@ -69,10 +72,11 @@ export class LoginService {
     if (accountEntity?.id && this.toolsService.checkPassword(password, accountEntity.password)) {
       // 生成token存储到token表中并且返回给前端
       const token = this.toolsService.uuidToken;
+      // const token = this.authService.createJwt(accountEntity.id);
       try {
-        await this.cacheTokenAndLoginInfo(accountEntity, token, ipAddress);
+        await this.cacheTokenAndLoginInfo(accountEntity, ipAddress, token);
+        console.log('accountEntity', accountEntity);
         return {
-          token,
           id: accountEntity.id,
           username: usernameRep ? usernameRep : accountEntity.username.startsWith('_') ? '' : accountEntity.username,
           email: isEmail(accountEntity.email) ? accountEntity.email : '',

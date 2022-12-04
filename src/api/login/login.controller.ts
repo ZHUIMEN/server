@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { LoginService } from './login.service';
 import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from '@src/api/login/dto/login.dto';
@@ -27,12 +37,11 @@ export class LoginController {
     return await this.loginService.login(loginDto, request);
   }
 
-  @UseGuards(TokenAuthGuard)
   @ApiOperation({
     summary: '用户信息 test 自定义装饰器',
   })
   @Post('userinfo')
-  async userinfo(@Body() @User('name') name: LoginDto) {
+  async userinfo(@Body() name: LoginDto) {
     console.log('name', name);
     //测试用的
     return {};

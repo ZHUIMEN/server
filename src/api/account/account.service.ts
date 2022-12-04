@@ -66,4 +66,11 @@ export class AccountService {
 
     return account;
   }
+
+  /**
+   * 通过id查找
+   */
+  async findByUserId(id: number) {
+    return this.accountRepository.findOne({ where: { id } });
+  }
 }
