@@ -13,9 +13,6 @@ export class UserException extends HttpException {
   private static code = ApiErrorCode.ERROR;
 
   constructor(msg?: string | Record<string, any>, code?: ApiErrorCode | HttpStatus, ...oth: any[]) {
-    super(
-      { code: code ?? UserException.code, message: msg ?? UserException.message, ...oth },
-      HttpStatus.OK
-    );
+    super({ code: code ?? UserException.code, message: msg ?? UserException.message, ...oth }, HttpStatus.OK);
   }
 }

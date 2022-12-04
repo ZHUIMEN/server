@@ -8,10 +8,12 @@ import { UserException } from '@src/common/exceptions/user.exception.error';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { ResultVo } from '@src/common/vo/result.vo';
 import { ApiErrorCode } from '@src/enums/api-error-code.enum';
+import { LoginService } from '@src/api/login/login.service';
 
 @Injectable()
 export class AccountService {
   constructor(
+    private readonly loginService: LoginService,
     @InjectPinoLogger(AccountService.name)
     private readonly logger: PinoLogger,
     @InjectRepository(AccountEntity)
@@ -54,8 +56,14 @@ export class AccountService {
    * @param username
    */
   async findByUsername(username: string) {
-    return this.accountRepository.findOne({
-      where: { username },
-    });
+    // 因为  AccountEntity select: false, 拿不到password,
+    // const account = await this.accountRepository.findOne({
+    //   where: { username },
+    // });
+    const account = await this.loginService.queryLoginBuilder
+      .where('(account.username = :username)', { username })
+      .getRawOne();
+
+    return account;
   }
 }

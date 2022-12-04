@@ -8,12 +8,10 @@ import { AccountService } from '@src/api/account/account.service';
 import { AccountEntity } from '@src/api/account/entities/account.entity';
 import { ToolsService } from '@src/plugin/tools/tools.service';
 import { SharedEntity } from '@src/common/entities/base.entity';
-import { IpToAddressService } from '@src/plugin/ip-to-address/ip-to-address.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private redis: IpToAddressService,
     private readonly toolsService: ToolsService,
     private userService: AccountService // private jwtService: JwtService
   ) {

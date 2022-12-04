@@ -27,6 +27,7 @@ export class LoginController {
     return await this.loginService.login(loginDto, request);
   }
 
+  //测试用的
   @UseGuards(TokenAuthGuard)
   @ApiOperation({
     summary: '用户信息 test 自定义装饰器',
@@ -34,7 +35,6 @@ export class LoginController {
   @Post('userinfo')
   async userinfo(@Body() @User('name') name: LoginDto) {
     console.log('name', name);
-    //测试用的
     return {};
   }
 }

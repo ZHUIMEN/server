@@ -6,4 +6,5 @@ export enum ApiErrorCode {
   TOKEN_INVAL = 40002, // 无效token
   ACCOUNT_INVAL = 40003, // 账号冻结
   PASSWORD_INVAL = 40004, // 密码错误
+  NOT_ACCOUNT_INVAL = 40005, // 账号不存在
 }

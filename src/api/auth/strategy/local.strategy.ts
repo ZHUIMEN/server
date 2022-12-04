@@ -1,11 +1,14 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ContextIdFactory, ModuleRef } from '@nestjs/core';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 import { AuthService } from '@src/api/auth/auth.service';
 import { AccountEntity } from '@src/api/account/entities/account.entity';
+import { UserException } from '@src/common/exceptions/user.exception.error';
+import { ApiErrorCode } from '@src/enums/api-error-code.enum';
+
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -18,7 +21,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
   async validate(request: Request, username: string, password: string): Promise<Partial<AccountEntity>> {
     const contextId = ContextIdFactory.getByRequest(request);
-
     // 现在 authService 是一个 request-scoped provider
     const userService = await this.moduleRef.resolve<AuthService>(AuthService, contextId);
 
@@ -26,7 +28,8 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
     if (!user) {
       this.logger.error('无法登录');
-      throw new UnauthorizedException();
+      // throw new UnauthorizedException();
+      throw new UserException('账号密码不存在', ApiErrorCode.NOT_ACCOUNT_INVAL);
     }
 
     return user;
