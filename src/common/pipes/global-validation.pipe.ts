@@ -10,12 +10,7 @@ export class GlobalValidationPipe implements PipeTransform<any> {
   // metatype 就是元数据,其实就是装饰器添加那些 type 为在那个装饰器中使用的‘名字‘ data 为装饰器的参数
   async transform(value: any, metadata: ArgumentMetadata) {
     const { metatype } = metadata;
-    Logger.debug(
-      '装饰器添加:%o,当前的type：%s ,当前的参数%o',
-      metadata,
-      metadata.type,
-      metadata.data
-    );
+    Logger.debug('装饰器添加:%o,当前的type：%s ,当前的参数%o', metadata, metadata.type, metadata.data);
     // 如果没有传入验证规则，则不验证，直接返回数据
     if (!metatype || !this.toValidate(metatype)) {
       return value;

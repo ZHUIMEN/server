@@ -4,15 +4,22 @@ import { AccountModule } from '@src/api/account/account.module';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from '@src/api/auth/strategy/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from '@src/constants';
+
 import { JwtStrategy } from '@src/api/auth/strategy/jwt.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
   imports: [
     AccountModule,
     PassportModule,
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: `${jwtConstants.expiresIn}m` },
+    ConfigModule,
+    // https://github.com/nestjs/jwt/blob/master/README.md
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('SECRET'),
+        signOptions: { expiresIn: `${configService.get<number>('EXPIRES_IN')} days` },
+      }),
+      inject: [ConfigService],
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],

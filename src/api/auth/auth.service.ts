@@ -40,8 +40,8 @@ export class AuthService {
     return await this.accountService.findByUserId(sub);
   }
 
-  public createJwt(sub) {
-    return this.jwtService.sign(sub);
+  public createJwt(id) {
+    return this.jwtService.sign({ userId: id });
   }
 
   // async login(user: User) {

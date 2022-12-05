@@ -12,7 +12,7 @@ export class AccountTokenEntity extends SharedEntity {
 
   @Column({
     type: 'varchar',
-    length: 100,
+    length: 150,
     name: 'token',
     comment: 'token',
   })

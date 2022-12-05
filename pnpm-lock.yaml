@@ -16,6 +16,7 @@ specifiers:
   '@types/express': ^4.17.13
   '@types/jest': 28.1.8
   '@types/node': ^16.0.0
+  '@types/passport-jwt': ^3.0.7
   '@types/passport-local': ^1.0.34
   '@types/supertest': ^2.0.11
   '@typescript-eslint/eslint-plugin': ^5.0.0
@@ -96,6 +97,7 @@ devDependencies:
   '@types/express': registry.npmmirror.com/@types/express/4.17.14
   '@types/jest': registry.npmmirror.com/@types/jest/28.1.8
   '@types/node': registry.npmmirror.com/@types/node/16.18.3
+  '@types/passport-jwt': registry.npmmirror.com/@types/passport-jwt/3.0.7
   '@types/passport-local': registry.npmmirror.com/@types/passport-local/1.0.34
   '@types/supertest': registry.npmmirror.com/@types/supertest/2.0.12
   '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.43.0_nqj4bdx4ekws7aecttskpih4py
@@ -1588,7 +1590,6 @@ packages:
     version: 8.5.8
     dependencies:
       '@types/node': registry.npmmirror.com/@types/node/16.18.3
-    dev: false
 
   registry.npmmirror.com/@types/mime/3.0.1:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/mime/-/mime-3.0.1.tgz}
@@ -1605,6 +1606,16 @@ packages:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/parse-json/-/parse-json-4.0.0.tgz}
     name: '@types/parse-json'
     version: 4.0.0
+    dev: true
+
+  registry.npmmirror.com/@types/passport-jwt/3.0.7:
+    resolution: {integrity: sha512-qRQ4qlww1Yhs3IaioDKrsDNmKy6gLDLgFsGwpCnc2YqWovO2Oxu9yCQdWHMJafQ7UIuOba4C4/TNXcGkQfEjlQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/passport-jwt/-/passport-jwt-3.0.7.tgz}
+    name: '@types/passport-jwt'
+    version: 3.0.7
+    dependencies:
+      '@types/express': registry.npmmirror.com/@types/express/4.17.14
+      '@types/jsonwebtoken': registry.npmmirror.com/@types/jsonwebtoken/8.5.8
+      '@types/passport-strategy': registry.npmmirror.com/@types/passport-strategy/0.2.35
     dev: true
 
   registry.npmmirror.com/@types/passport-local/1.0.34:

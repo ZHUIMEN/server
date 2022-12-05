@@ -25,10 +25,7 @@ export class ToolsService {
    */
   getReqIP(req: Request): string {
     const currentIp =
-      ((req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress)?.replace(
-        '::ffff:',
-        ''
-      ) ?? '';
+      ((req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress)?.replace('::ffff:', '') ?? '';
     // 处理代理后的多个ip地址,只拿第一个ip
     if (currentIp.split(',').length) {
       return currentIp.split(',').shift()!;

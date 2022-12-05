@@ -18,6 +18,7 @@ import { ApiResult } from '@src/common/decorators/apiResult.decorator';
 import { TokenAuthGuard } from '@src/common/guard/token.auth.guard';
 import { User } from '@src/common/decorators/user.decorator';
 import { LocalAuthGuard } from '@src/common/guard/local.auth.guard';
+import { SkipJwtAuth } from '@src/constants';
 
 @ApiTags('登录')
 // @UseGuards(TokenAuthGuard)
@@ -27,6 +28,7 @@ export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
   @UseGuards(LocalAuthGuard)
+  @SkipJwtAuth()
   @Post()
   @ApiOperation({
     summary: '登录login',

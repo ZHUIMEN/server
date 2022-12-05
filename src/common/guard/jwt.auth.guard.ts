@@ -1,8 +1,10 @@
-import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '@src/constants';
+import { UserException } from '@src/common/exceptions/user.exception.error';
+import { ApiErrorCode } from '@src/enums/api-error-code.enum';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
@@ -18,14 +20,16 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     ]);
     // skip
     if (isPublic) return true;
-
-    return super.canActivate(context);
+    const isJwt = super.canActivate(context);
+    return isJwt;
   }
 
   handleRequest(err, user) {
     // 处理 info
+    console.info('res', err, user);
     if (err || !user) {
-      throw err || new UnauthorizedException();
+      // throw err || new UnauthorizedException();
+      throw new UserException('登录异常,查看token', ApiErrorCode.ACCOUNT_INVAL);
     }
     return user;
   }

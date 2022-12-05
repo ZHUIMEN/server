@@ -72,9 +72,10 @@ export class LoginService {
       // const token = this.toolsService.uuidToken;
       const token = this.authService.createJwt(accountEntity.id);
       try {
-        await this.cacheTokenAndLoginInfo(accountEntity, ipAddress, token);
-        console.log('accountEntity', accountEntity);
+        await this.cacheTokenAndLoginInfo(accountEntity, token, ipAddress);
+        // console.log('accountEntity', accountEntity);
         return {
+          token,
           id: accountEntity.id,
           username: usernameRep ? usernameRep : accountEntity.username.startsWith('_') ? '' : accountEntity.username,
           email: isEmail(accountEntity.email) ? accountEntity.email : '',

@@ -1,11 +1,5 @@
 import { Transform, TransformFnParams } from 'class-transformer';
-import {
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-  BaseEntity,
-} from 'typeorm';
+import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, BaseEntity } from 'typeorm';
 
 export class SharedEntity extends BaseEntity {
   @PrimaryGeneratedColumn({

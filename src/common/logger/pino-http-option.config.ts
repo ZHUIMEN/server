@@ -36,7 +36,13 @@ export function pinoHttpOption(envDevMode = 'development'): Options {
       return 'info';
     },
     serializers: {
-      req(req: { httpVersion: any; raw: { httpVersion: any; params: any; query: any; body: any }; params: any; query: any; body: any }) {
+      req(req: {
+        httpVersion: any;
+        raw: { httpVersion: any; params: any; query: any; body: any };
+        params: any;
+        query: any;
+        body: any;
+      }) {
         req.httpVersion = req.raw.httpVersion;
         req.params = req.raw.params;
         req.query = req.raw.query;

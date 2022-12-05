@@ -13,9 +13,7 @@ export function IsEqual(property: string, validationOptions?: ValidationOptions)
         validate(value: any, args: ValidationArguments) {
           const [relatedPropertyName] = args.constraints;
           const relatedValue = (args.object as any)[relatedPropertyName];
-          return (
-            typeof value === 'string' && typeof relatedValue === 'string' && value === relatedValue
-          );
+          return typeof value === 'string' && typeof relatedValue === 'string' && value === relatedValue;
         },
         defaultMessage() {
           return '两次密码不一致';

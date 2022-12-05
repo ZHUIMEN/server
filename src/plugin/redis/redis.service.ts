@@ -36,11 +36,7 @@ export class RedisService {
    * @return {*}
    */
   public async set(key: string, value: unknown): Promise<Result<'OK', ClientContext>>;
-  public async set(
-    key: string,
-    value: unknown,
-    second: number
-  ): Promise<Result<'OK', ClientContext>>;
+  public async set(key: string, value: unknown, second: number): Promise<Result<'OK', ClientContext>>;
   public async set(key: string, value: any, second?: number): Promise<Result<'OK', ClientContext>> {
     value = isObject(value) ? JSON.stringify(value) : value;
     if (!second) {
