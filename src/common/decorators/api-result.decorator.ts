@@ -6,6 +6,7 @@ import { ResultVo } from '@src/common/vo/result.vo';
 const baseTypeNames = ['String', 'Number', 'Boolean'];
 /**
  * https://juejin.cn/post/7043781859569827848
+ * 知识点: 自定义响应 额外的模型 自定义装饰器 原始定义
  * 封装 swagger 返回统一结构
  * 支持复杂类型 {  code, msg, data }
  * @param model 返回的 data 的数据类型

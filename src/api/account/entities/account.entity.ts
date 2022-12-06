@@ -5,6 +5,7 @@ import { Exclude, Expose } from 'class-transformer';
 import { isEmail, isMobilePhone } from 'class-validator';
 import { usernameReg } from '@src/constants';
 import { StatusEnum } from '@src/enums';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('account')
 export class AccountEntity extends SharedEntity {
@@ -43,7 +44,9 @@ export class AccountEntity extends SharedEntity {
     comment: '手机号码',
   })
   mobile!: string;
-
+  /**
+   * 邮箱
+   */
   @Index()
   @Column({
     type: 'varchar',
@@ -54,6 +57,7 @@ export class AccountEntity extends SharedEntity {
   })
   email!: string;
 
+  @ApiProperty({ type: 'enum', enum: StatusEnum, enumName: 'StatusEnum', description: '状态,0表示禁止,1表示正常' })
   @Column({
     type: 'tinyint',
     name: 'status',
@@ -63,6 +67,10 @@ export class AccountEntity extends SharedEntity {
   })
   status!: StatusEnum;
 
+  // @ApiProperty({ description: '是否为超级管理员1表示是,0表示不是' })
+  /**
+   * 是否为超级管理员1表示是,0表示不是
+   */
   @Column({
     type: 'tinyint',
     name: 'is_super',

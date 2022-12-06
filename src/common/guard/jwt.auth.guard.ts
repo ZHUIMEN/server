@@ -13,7 +13,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-    // 自定义用户身份验证逻辑
+    // 自定义用户身份验证逻辑 取符合isPublicKey的注解
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -29,7 +29,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     console.info('res', err, user);
     if (err || !user) {
       // throw err || new UnauthorizedException();
-      throw new UserException('登录异常,查看token', ApiErrorCode.ACCOUNT_INVAL);
+      throw new UserException('登录超时,请重新登录', ApiErrorCode.ACCOUNT_INVAL);
     }
     return user;
   }

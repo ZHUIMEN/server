@@ -51,7 +51,7 @@ export class AccountService {
   }
 
   /**
-   * 查找用户是否存在
+   * 查找用户是否存在 认证使用
    * @param username
    */
   async findByUsername(username: string) {

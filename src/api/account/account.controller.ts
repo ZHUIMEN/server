@@ -1,11 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  UseGuards,
+  Res,
+  Req,
+  CacheKey,
+  CacheTTL,
+  SetMetadata,
+} from '@nestjs/common';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
-import { ApiBody, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('account')
+@ApiBearerAuth()
 @ApiTags('用户模块')
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
@@ -15,17 +31,19 @@ export class AccountController {
     return this.accountService.create(createAccountDto);
   }
 
-  // @ApiBody({
-  //   schema: {
-  //     username: {
-  //       type: string,
-  //     },
-  //   },
-  // })
+  /**
+   * 查找用户信息
+   */
   @Post('find')
   // @UseGuards(AuthGuard('jwt'))
   checkAccount(@Body() username) {
     console.log(username);
     return this.accountService.findByUsername(username.username);
+  }
+  @SetMetadata('redis', '20')
+  @ApiOperation({ summary: '获取用户信息' })
+  @Get('user-info')
+  userInfo(@Req() req) {
+    return this.accountService.findByUserId(req.user.userId);
   }
 }

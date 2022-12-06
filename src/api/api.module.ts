@@ -9,9 +9,7 @@ import { PluginModule } from '@src/plugin/plugin.module';
 import { AuthModule } from '@src/api/auth/auth.module';
 
 import { JwtAuthGuard } from '@src/common/guard/jwt.auth.guard';
-import { LoginService } from '@src/api/login/login.service';
-import { AccountService } from '@src/api/account/account.service';
-import { AuthService } from '@src/api/auth/auth.service';
+import { RedisCacheInterceptor } from '@src/common/interceptors/redis-cache.interceptor';
 
 @Module({
   imports: [
@@ -31,15 +29,19 @@ import { AuthService } from '@src/api/auth/auth.service';
     ]),
   ],
   providers: [
-    {
-      provide: APP_PIPE,
-      useClass: GlobalValidationPipe,
-    },
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
     },
-    { provide: APP_GUARD, useClass: JwtAuthGuard },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: RedisCacheInterceptor,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: GlobalValidationPipe,
+    },
   ],
 })
 export class ApiModule {}

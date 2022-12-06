@@ -35,6 +35,7 @@ async function bootstrap() {
 
   // swagger 注意顺序
   initDoc(app);
+
   await app.listen(port, () => {
     LoggerService.log('main.ts', port);
     LoggerService.log(`服务已经启动,接口请访问:http://wwww.localhost:${port}/api`);

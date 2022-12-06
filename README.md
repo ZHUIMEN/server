@@ -84,4 +84,6 @@ https://github.com/kuangshp/nestjs-mysql-api
 
 https://github.com/kenso312/nestjs-v9-webpack-boilerplate
 
+https://github.dev/Ka-de/whisper_api
+
 

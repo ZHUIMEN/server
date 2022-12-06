@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import Redis, { ClientContext, Result } from 'ioredis';
 
 import { ObjectType } from '@src/types';
@@ -6,7 +6,7 @@ import { isObject } from '@src/utils';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class RedisService {
+export class RedisService implements OnModuleInit {
   public redisClient!: Redis;
 
   constructor(private readonly configService: ConfigService) {}

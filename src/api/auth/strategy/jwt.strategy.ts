@@ -8,16 +8,19 @@ import { UserException } from '@src/common/exceptions/user.exception.error';
 import { ApiErrorCode } from '@src/enums/api-error-code.enum';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-// 参考 https://github.com/quangmanhlam/core-api/blob/e92150abbcabebd90b5fed5954e8e087f75551db/src/modules/auth/strategies/jwt.strategy.ts
+/**
+ *  参考:https://github.com/quangmanhlam/core-api/blob/e92150abbcabebd90b5fed5954e8e087f75551db/src/modules/auth/strategies/jwt.strategy.ts
+ *  认证方式：https://blog.csdn.net/qq_31032141/article/details/122395730
+ */
 const versionOneCompatibility = () => {
   const Field = 'token',
-    authScheme = 'JWT';
+    authScheme = 'Bearer';
   return function (request) {
     //新版的有着方法 type没有提示
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const authHeaderExtractor = ExtractJwt.versionOneCompatibility({
-      // Authorization : Authorization： JWT xxxx
+      // Authorization : Authorization： Bearer xxxx
       authScheme: authScheme,
       // Body {token: xxxx}
       tokenBodyField: Field,
@@ -60,6 +63,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UserException('请传递token', ApiErrorCode.TOKEN_INVAL);
     }
 
-    return { ...payload, userId: payload.sub };
+    return { ...payload, userId: payload.userId };
   }
 }
