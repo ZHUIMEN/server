@@ -14,7 +14,7 @@ import { REDIS_CACHE_EX_DIFF_USER_KEY, REDIS_CACHE_EX_SECOND_KEY, REDIS_CACHE_KE
 
 /**
  *
- * 可以参考另一种做法:https://github.dev/Ka-de/whisper_api/blob/staging/src/redis-cache/redis-cache.interceptor.ts#L17
+ * 可以参考另一种做法:https://github.com/Ka-de/whisper_api/blob/staging/src/redis-cache/redis-cache.interceptor.ts#L17
  *
  */
 
@@ -39,7 +39,7 @@ export class RedisCacheInterceptor implements NestInterceptor {
 
       // 如果有授权拦截的且需要区分用户的时候
       if (request.user && isDiffUser) {
-        redisKey = this.redisCacheKey(request.method, request.url, `${request.user.username}_${request.user.id}`);
+        redisKey = this.redisCacheKey(request.method, request.url, `${request.user.userName}_${request.user.userId}`);
       }
 
       const redisData = await this.redisService.get(redisKey);

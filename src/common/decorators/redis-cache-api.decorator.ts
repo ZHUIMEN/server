@@ -15,9 +15,6 @@ const defaultParams: IParams = {
 };
 
 /**
- * @Author: 水痕
- * @Date: 2022-08-12 22:09:24
- * @LastEditors: 水痕
  * @Description: 自定义装饰器,用于路由上装饰需要缓存的接口
  * @return {*}
  */

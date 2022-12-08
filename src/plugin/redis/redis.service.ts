@@ -20,6 +20,7 @@ export class RedisService implements OnModuleInit {
   private getClient() {
     // TODO 提到类的上层；
     this.redisClient = new Redis({
+      keyPrefix: 'test:',
       port: Number(this.configService.get('REDIS_PORT')), // Redis port
       host: this.configService.get('REDIS_HOST'), // redisDb Redis host
       username: this.configService.get('REDIS_USERNAME'), // needs Redis >= 6
@@ -111,5 +112,30 @@ export class RedisService implements OnModuleInit {
    */
   public async flushall(): Promise<Result<'OK', ClientContext>> {
     return await this.redisClient.flushall();
+  }
+
+  /**
+   * @Description:返回一个布尔值，如果key存在，则返回true，如果key不存在，则返回false
+   * @param Key
+   */
+  public async exists(Key: string): Promise<Result<number, ClientContext>> {
+    return await this.redisClient.exists(Key);
+  }
+
+  /**
+   * 设置已有的key的过期时间
+   * @Description: 接受两个参数，第一个参数是要重置过期时间的key，第二个参数是过期时间（单位为秒）
+   * @param key
+   */
+  public async setExpire(key: string, second: number): Promise<Result<number, ClientContext>> {
+    return await this.redisClient.expire(key, second);
+  }
+
+  /**
+   * 返回一个数字，表示key还有多长时间过期（单位为秒）。如果key已经过期，则返回-2；如果key不存在，则返回-1
+   * @param key
+   */
+  public async getTtl(key: string): Promise<Result<number, ClientContext>> {
+    return this.redisClient.ttl(key);
   }
 }

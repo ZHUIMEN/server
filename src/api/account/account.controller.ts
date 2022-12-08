@@ -19,6 +19,7 @@ import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { ApiBasicAuth, ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { RedisCacheApi } from '@src/common/decorators';
 
 @Controller('account')
 @ApiBearerAuth()
@@ -32,17 +33,17 @@ export class AccountController {
   }
 
   /**
-   * 查找用户信息
+   *  通过用户名字查找 查找用户信息 缓存（60）
    */
   @Post('find')
-  // @UseGuards(AuthGuard('jwt'))
   checkAccount(@Body() username) {
     console.log(username);
     return this.accountService.findByUsername(username.username);
   }
-  @SetMetadata('redis', '20')
-  @ApiOperation({ summary: '获取用户信息' })
+
+  @ApiOperation({ summary: '获取用户信息 缓存（60）' })
   @Get('user-info')
+  @RedisCacheApi({ exSecond: 60, isDiffUser: true })
   userInfo(@Req() req) {
     return this.accountService.findByUserId(req.user.userId);
   }

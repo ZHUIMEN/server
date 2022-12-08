@@ -1,12 +1,8 @@
 import { applyDecorators, SetMetadata } from '@nestjs/common';
-import {
-  REDIS_LIMIT_KEY,
-  REDIS_LIMIT_RANGE_SECOND_KEY,
-  REDIS_LIMIT_MAX_REQUEST_KEY,
-} from '@src/constants';
+import { REDIS_LIMIT_KEY, REDIS_LIMIT_RANGE_SECOND_KEY, REDIS_LIMIT_MAX_REQUEST_KEY } from '@src/constants';
 
 interface IParams {
-  /** 时间单位为妙*/
+  /** 时间单位为秒*/
   exSecond?: number;
   /** 最大访问次数 */
   maxRequest?: number;
@@ -18,9 +14,6 @@ const defaultParams: IParams = {
 };
 
 /**
- * @Author: 水痕
- * @Date: 2022-08-13 10:45:45
- * @LastEditors: 水痕
  * @Description: 自定义装饰器来实现接口限流
  * @param {IParams} params
  * @return {*}

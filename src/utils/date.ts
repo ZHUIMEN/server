@@ -4,9 +4,6 @@ import moment from 'moment';
  * @param isDue 是否显示时分秒
  * @return:
  * @Description: 格式化日期
- * @Author: 水痕
- * @LastEditors: 水痕
- * @Date: 2019-07-31 15:27:39
  */
 export const formatDate = (dateNum: string | number, isDue = false): string => {
   if (isDue) {
