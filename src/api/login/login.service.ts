@@ -67,7 +67,7 @@ export class LoginService {
           // isSuperStr: accountEntity.isSuperStr(), // todo isSuperStr
         };
       } catch (error: any) {
-        throw new UserException(error.message);
+        throw new UserException(error.message, null, error);
       }
     } else {
       this.logger.error('账号密码登录错误');

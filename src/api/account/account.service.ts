@@ -11,9 +11,9 @@ import { ApiErrorCode } from '@src/enums/api-error-code.enum';
 import { FindAccountType } from '@src/types';
 import { IPAddress, IpToAddressService } from '@src/plugin/ip-to-address/ip-to-address.service';
 import { AccountTokenEntity } from '@src/api/login/entities/account.token.entity';
-import moment from 'moment';
 import { ConfigService } from '@nestjs/config';
 import { RedisService } from '@src/plugin/redis/redis.service';
+import moment = require('moment');
 
 @Injectable()
 export class AccountService {
@@ -124,7 +124,9 @@ export class AccountService {
     const ipAddressResult: IPAddress = await this.ipToAddressService.getAddress(ipAddress);
     try {
       const tokenExpire: number = this.configService.get('TOKEN_EXPIRE') ?? 1;
-      await this.redisService.set(token, accountEntity, moment.duration(1, 'days').asSeconds());
+      console.log(moment.duration(tokenExpire, 'days').asSeconds());
+
+      await this.redisService.set(token, accountEntity, moment.duration(tokenExpire, 'days').asSeconds());
 
       // 登录历史表中插入数据
       const loginHistoryEntity = queryRunner.manager.create<LoginHistoryEntity>(LoginHistoryEntity, {
@@ -147,8 +149,8 @@ export class AccountService {
 
       // 存在就更新，否则就创建
       if (accountTokenEntity) {
-        // 删除老的redis里的token,这里没必要的 因为使用的jwt 生成的 token都一样的
-        // this.redisService.del(accountTokenEntity.token);
+        // 删除老的redis里的token
+        this.redisService.del(accountTokenEntity.token);
         await queryRunner.manager.update<AccountTokenEntity>(
           AccountTokenEntity,
           {
@@ -177,7 +179,7 @@ export class AccountService {
       // 回滚操作
       this.logger.error('存储账号token到redis中失败 %o', err);
       await queryRunner.rollbackTransaction();
-      throw new UserException('账号密码错误', ApiErrorCode.PASSWORD_INVAL);
+      throw new UserException('账号密码错误', ApiErrorCode.PASSWORD_INVAL, err);
     } finally {
       // 最后你需要释放一个手动实例化的queryRunner
       await queryRunner.release();

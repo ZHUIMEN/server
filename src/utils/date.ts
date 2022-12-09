@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment = require('moment');
 /**
  * @param dateNum 时间
  * @param isDue 是否显示时分秒

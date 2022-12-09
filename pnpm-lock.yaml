@@ -25,6 +25,7 @@ specifiers:
   class-transformer: ^0.5.1
   class-validator: ^0.13.2
   cross-env: ^7.0.3
+  dayjs: ^1.11.7
   eslint: ^8.0.1
   eslint-config-prettier: ^8.3.0
   eslint-plugin-prettier: ^4.0.0
@@ -71,6 +72,7 @@ dependencies:
   axios: registry.npmmirror.com/axios/1.2.0
   class-transformer: registry.npmmirror.com/class-transformer/0.5.1
   class-validator: registry.npmmirror.com/class-validator/0.13.2
+  dayjs: registry.npmmirror.com/dayjs/1.11.7
   get-caller-file: registry.npmmirror.com/get-caller-file/2.0.5
   helmet: registry.npmmirror.com/helmet/6.0.0
   ioredis: registry.npmmirror.com/ioredis/5.2.4
@@ -2893,6 +2895,12 @@ packages:
     name: dateformat
     version: 4.6.3
     dev: true
+
+  registry.npmmirror.com/dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/dayjs/-/dayjs-1.11.7.tgz}
+    name: dayjs
+    version: 1.11.7
+    dev: false
 
   registry.npmmirror.com/debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/debug/-/debug-2.6.9.tgz}

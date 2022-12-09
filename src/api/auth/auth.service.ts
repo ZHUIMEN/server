@@ -8,7 +8,7 @@ import { Request } from 'express';
 import { FindAccountType } from '@src/types';
 import { ChainableCommander } from 'ioredis';
 import { ConfigService } from '@nestjs/config';
-import moment from 'moment/moment';
+import moment = require('moment');
 @Injectable()
 export class AuthService {
   constructor(

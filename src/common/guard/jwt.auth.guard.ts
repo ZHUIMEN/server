@@ -29,7 +29,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     console.info('res', err, user);
     if (err || !user) {
       // throw err || new UnauthorizedException();
-      throw new UserException('登录超时,请重新登录', ApiErrorCode.ACCOUNT_INVAL);
+      throw new UserException('登录超时,请重新登录', ApiErrorCode.ACCOUNT_INVAL, err);
     }
     return user;
   }
