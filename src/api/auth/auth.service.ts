@@ -9,6 +9,7 @@ import { FindAccountType } from '@src/types';
 import { ChainableCommander } from 'ioredis';
 import { ConfigService } from '@nestjs/config';
 import moment = require('moment');
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -38,7 +39,7 @@ export class AuthService {
 
   /**
    *
-   * 查询数据库
+   * 查询数据库w
    * 验证toke中的的userid 是否存当前的用户 并返回用户信息
    * @param userId
    */
@@ -57,17 +58,13 @@ export class AuthService {
   }
 
   /**
-   * 重置token
+   * 重置token 即在倒数第3天时 请求，重置过期时间
    */
-  public resetToken(
-    ttl: ChainableCommander | number,
-    accountEntity: FindAccountType<AccountEntity>,
-    token: string,
-    request: Request
-  ) {
+  public async resetToken(accountEntity: FindAccountType<AccountEntity>, token: string, request: Request) {
     // return this.redisService.exists(key);
     const oneHalf = parseInt(this.configService.get('TOKEN_EXPIRE')) / 2; //>> 1;
     if (oneHalf <= 0) return;
+    const ttl = await this.redisService.getTtl(token);
     // 时间还有一半时重置
     if (ttl <= moment.duration(oneHalf, 'days').asSeconds()) {
       const ipAddress = this.toolsService.getReqIP(request);
@@ -78,7 +75,7 @@ export class AuthService {
   /**
    * 查看 redis中的token 是否快过期 如果key已经过期，则返回-2；如果key不存在，则返回-1
    */
-  public checkTokenTtl(key: string) {
+  public checkToken(key: string) {
     return this.redisService.exists(key);
   }
 

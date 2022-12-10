@@ -11,6 +11,7 @@ import { Observable, of, map } from 'rxjs';
 import { Reflector } from '@nestjs/core';
 import { RedisService } from '@src/plugin/redis/redis.service';
 import { REDIS_CACHE_EX_DIFF_USER_KEY, REDIS_CACHE_EX_SECOND_KEY, REDIS_CACHE_KEY } from '@src/constants';
+import { instanceToPlain, plainToInstance, serialize } from 'class-transformer';
 
 /**
  *
@@ -51,7 +52,7 @@ export class RedisCacheInterceptor implements NestInterceptor {
         console.log('走后端');
         return next.handle().pipe(
           map((data) => {
-            this.redisService.set(redisKey, data, redisEXSecond);
+            this.redisService.set(redisKey, instanceToPlain(data), redisEXSecond);
             return data;
           })
         );
@@ -75,9 +76,9 @@ export class RedisCacheInterceptor implements NestInterceptor {
   private redisCacheKey(method: string, url: string, identity: string): string;
   private redisCacheKey(method: string, url: string, identity?: string): string {
     if (identity) {
-      return `${identity}_${method}:${url}`;
+      return `cache:${identity}_${method}:${url}`;
     } else {
-      return `${method}:${url}`;
+      return `cache:${method}:${url}`;
     }
   }
 }

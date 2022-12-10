@@ -83,14 +83,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // 现在 authService 是一个 request-scoped provider
     const authService = await this.moduleRef.resolve<AuthService>(AuthService, contextId);
     const token = versionOneCompatibility()(request);
+
     /**判断是否存在*/
-    // const isExist = await authService.checkToken(token);
-    // if (!isExist) {
-    //   throw new UserException('token 已过期', ApiErrorCode.TOKEN_INVAL);
-    // }
-    /**判断是否过期*/
-    const ttl = await authService.checkTokenTtl(token);
-    if (ttl <= 0) {
+    const exists = await authService.checkToken(token);
+    if (exists <= 0) {
       throw new UserException('token 已过期', ApiErrorCode.TOKEN_INVAL);
     }
 
@@ -107,7 +103,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // }
     /**如果token小于3天,即在倒数第3天时 请求，重置过期时间 */
 
-    authService.resetToken(ttl, cacheUser, token, request);
+    authService.resetToken(cacheUser, token, request);
 
     return { ...payload, userId: payload.userId, userName: payload.userName };
   }
