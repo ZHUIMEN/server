@@ -32,14 +32,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
         resultCode = exception.getErrorCode();
         resultMessage = exception.getErrorMessage();
       } else {
-        console.error('程序错误====', resultMessage);
+        console.debug('程序错误====', resultMessage);
         const { code, message, ...oth } = JSON.parse(resultMessage);
         resultMessage = resultMessage;
         resultCode = code;
         resultParams = Object.values(oth);
       }
     } catch (e) {
-      this.logger.log('未拦截到自定义错误，导致解析错误：', e);
+      this.logger.debug('未拦截到自定义错误，导致解析错误：', e);
     }
     const errorResponse = {
       status,
@@ -51,12 +51,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
       timestamp: new Date().toLocaleDateString(), // 错误的时间
     };
     this.logger.verbose('error');
-    // 打印日志
+    // todo 自定义打印错误日志，其实使用 pino-http 会自动拦截错误，因此重复的操作
+    /*
     this.logger.error(
       `【${new Date().toISOString()}】${request.method} ${request.url}`,
       JSON.stringify(errorResponse),
       'HttpExceptionFilter'
     );
+    */
 
     // 设置返回的状态码、请求头、发送错误信息
     response.status(status);

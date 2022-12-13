@@ -19,13 +19,18 @@ import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { ApiBasicAuth, ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { RedisCacheApi } from '@src/common/decorators';
+import { RedisCacheApi, RedisLimitApi } from '@src/common/decorators';
+import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
 @Controller('account')
 @ApiBearerAuth()
 @ApiTags('用户模块')
 export class AccountController {
-  constructor(private readonly accountService: AccountService) {}
+  constructor(
+    private readonly accountService: AccountService,
+    @InjectPinoLogger(AccountController.name)
+    private readonly logger: PinoLogger
+  ) {}
 
   @Post('create')
   create(@Body() createAccountDto: CreateAccountDto) {
@@ -43,8 +48,10 @@ export class AccountController {
 
   @ApiOperation({ summary: '获取用户信息 缓存（60）' })
   @Get('user-info')
-  @RedisCacheApi({ exSecond: 60, isDiffUser: true })
+  @RedisLimitApi()
+  // @RedisCacheApi({ exSecond: 60, isDiffUser: true })
   userInfo(@Req() req) {
+    // this.logger.info('req %o', req);
     return this.accountService.findByUserId(req.user.userId);
   }
 }

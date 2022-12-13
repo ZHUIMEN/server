@@ -12,10 +12,11 @@ async function bootstrap() {
     cors: false, // 关闭cors
     logger: false, // 关闭内置logger
   });
-
   // logger
+  // app.useGlobalInterceptors(new LoggerErrorInterceptor());
   const LoggerService = app.get(Logger);
   app.useLogger(LoggerService);
+  app.flushLogs();
 
   const configService = app.get<ConfigService>(ConfigService);
   const port = configService.get<string>('PORT');

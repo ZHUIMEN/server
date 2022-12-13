@@ -10,6 +10,7 @@ import { AuthModule } from '@src/api/auth/auth.module';
 
 import { JwtAuthGuard } from '@src/common/guard/jwt.auth.guard';
 import { RedisCacheInterceptor } from '@src/common/interceptors/redis-cache.interceptor';
+import { RedisLimitInterceptor } from '@src/common/interceptors/redis-limit.interceptor';
 
 @Module({
   imports: [
@@ -37,6 +38,10 @@ import { RedisCacheInterceptor } from '@src/common/interceptors/redis-cache.inte
     {
       provide: APP_INTERCEPTOR,
       useClass: RedisCacheInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: RedisLimitInterceptor,
     },
     {
       provide: APP_PIPE,

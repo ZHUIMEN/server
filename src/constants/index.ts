@@ -5,3 +5,4 @@ export * from './redis.cache';
 export * from './redis.limit';
 export * from './reg';
 export * from './auth';
+export * from './logger';
