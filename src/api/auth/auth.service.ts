@@ -66,7 +66,7 @@ export class AuthService {
     if (oneHalf <= 0) return;
     const ttl = await this.redisService.getTtl(token);
     // 时间还有一半时重置
-    if (ttl <= moment.duration(oneHalf, 'days').asSeconds()) {
+    if (typeof ttl === 'number' && ttl <= moment.duration(oneHalf, 'days').asSeconds()) {
       const ipAddress = this.toolsService.getReqIP(request);
       this.accountService.cacheTokenAndLoginInfo(accountEntity, token, ipAddress);
     }

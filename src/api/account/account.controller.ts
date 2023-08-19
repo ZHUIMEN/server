@@ -19,7 +19,7 @@ import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { ApiBasicAuth, ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { RedisCacheApi, RedisLimitApi } from '@src/common/decorators';
+import { RedisCacheApi, RedisLimitApi, SkipJwtAuth } from '@src/common/decorators';
 import { InjectPinoLogger, PinoLogger } from 'nestjs-pino';
 
 @Controller('account')
@@ -32,6 +32,7 @@ export class AccountController {
     private readonly logger: PinoLogger
   ) {}
 
+  @SkipJwtAuth()
   @Post('create')
   create(@Body() createAccountDto: CreateAccountDto) {
     return this.accountService.create(createAccountDto);

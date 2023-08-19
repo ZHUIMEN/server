@@ -19,6 +19,7 @@ import { UserException } from 'src/common/exceptions/user.exception.error';
 import { User } from 'src/entities/User.entity';
 import { UserDto } from './dto/index.dto';
 import { UserService } from './user.service';
+import { SkipJwtAuth } from '@src/common/decorators';
 
 @ApiTags('用户信息')
 @Controller('user')
@@ -66,10 +67,21 @@ export class UserController {
   }
 
   @Get('/get_admin')
+  @SkipJwtAuth()
   @ApiOperation({
     summary: '获取超级管理员',
   })
   getAdmin() {
     return this.cjServer;
+  }
+
+  /**
+   * 创建猫
+   * @returns
+   */
+  @SkipJwtAuth()
+  @Get('/create_cat')
+  createCat() {
+    return this.userServer.createCat();
   }
 }

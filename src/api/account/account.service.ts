@@ -121,7 +121,7 @@ export class AccountService {
     await queryRunner.connect();
     await queryRunner.startTransaction(); // 开启事物
     // 根据id查询到地址
-    const ipAddressResult: IPAddress = await this.ipToAddressService.getAddress(ipAddress);
+    // const ipAddressResult: IPAddress = await this.ipToAddressService.getAddress(ipAddress);
     try {
       const tokenExpire: number = this.configService.get('TOKEN_EXPIRE') ?? 1;
       console.log(moment.duration(tokenExpire, 'days').asSeconds());
@@ -133,11 +133,11 @@ export class AccountService {
         accountId: accountEntity.id,
         loginTime: new Date(),
         loginIp: ipAddress,
-        nation: ipAddressResult.nation,
-        province: ipAddressResult.province,
-        city: ipAddressResult.city,
-        district: ipAddressResult.district,
-        adcode: ipAddressResult.adcode,
+        // nation: ipAddressResult.nation,
+        // province: ipAddressResult.province,
+        // city: ipAddressResult.city,
+        // district: ipAddressResult.district,
+        // adcode: ipAddressResult.adcode,
       });
       await queryRunner.manager.save<LoginHistoryEntity>(loginHistoryEntity);
       // 更新账号token表

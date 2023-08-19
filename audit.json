@@ -1,0 +1,131 @@
+{
+    "keepSettings": {
+        "type": 1,
+        "amount": 10
+    },
+    "auditFilename": "audit.json",
+    "hashType": "md5",
+    "extension": "",
+    "files": [
+        {
+            "date": 1691741850209,
+            "name": "/Users/cuijian/work/server/dist/logs/info.log.20230811.0",
+            "hash": "6c019d24a0f9dccfdd8bf111f3fc31cb"
+        },
+        {
+            "date": 1691741850210,
+            "name": "/Users/cuijian/work/server/dist/logs/debug.log.20230811.20230811",
+            "hash": "73b75e64b7fdb43f406ddb18a0184bfc"
+        },
+        {
+            "date": 1691741850210,
+            "name": "/Users/cuijian/work/server/dist/logs/warn.log.20230811.20230811",
+            "hash": "60173ef197b7e5bcc9200b4d3bad3e3d"
+        },
+        {
+            "date": 1691741850211,
+            "name": "/Users/cuijian/work/server/dist/logs/error.log.20230811.20230811",
+            "hash": "2c9db75ed610ceb55a589b0c43f6d243"
+        },
+        {
+            "date": 1691741850211,
+            "name": "/Users/cuijian/work/server/dist/logs/fatal.log.20230811.20230811",
+            "hash": "af570bf76a9d57266f0f1eb683cd7ae1"
+        },
+        {
+            "date": 1691741888613,
+            "name": "/Users/cuijian/work/server/dist/logs/info.log.20230811.20230811",
+            "hash": "795077faa3a159dd179528a09e24d73e"
+        },
+        {
+            "date": 1692258904067,
+            "name": "/Users/cuijian/work/server/dist/logs/info.log.20230817.0",
+            "hash": "321459315b9a6faed04324ddf910ae7d"
+        },
+        {
+            "date": 1692258904068,
+            "name": "/Users/cuijian/work/server/dist/logs/debug.log.20230817.20230817",
+            "hash": "e06dec8b61614e43267edf287ac41556"
+        },
+        {
+            "date": 1692258904069,
+            "name": "/Users/cuijian/work/server/dist/logs/warn.log.20230817.20230817",
+            "hash": "d98fb6d6e31cac4e4a2f22eff6d05f9c"
+        },
+        {
+            "date": 1692258904069,
+            "name": "/Users/cuijian/work/server/dist/logs/error.log.20230817.20230817",
+            "hash": "19d43fd5b6f78571504d21f869ed4539"
+        },
+        {
+            "date": 1692258904069,
+            "name": "/Users/cuijian/work/server/dist/logs/fatal.log.20230817.20230817",
+            "hash": "d56b516c357ce618dad6e4d07c82d00f"
+        },
+        {
+            "date": 1692259056427,
+            "name": "/Users/cuijian/work/server/dist/logs/info.log.20230817.20230817",
+            "hash": "0081fdc0d8d86860b1ba57f82acbd6da"
+        },
+        {
+            "date": 1692336115973,
+            "name": "/Users/cuijian/work/server/dist/logs/info.log.20230818.0",
+            "hash": "b5df9c71ade20c97728d3a40ed572c78"
+        },
+        {
+            "date": 1692336115974,
+            "name": "/Users/cuijian/work/server/dist/logs/debug.log.20230818.20230818",
+            "hash": "26316084e3ebf40104c4a36a814cc78f"
+        },
+        {
+            "date": 1692336115974,
+            "name": "/Users/cuijian/work/server/dist/logs/warn.log.20230818.20230818",
+            "hash": "b000001f375587dcf4e0fd6bc7b8dcdb"
+        },
+        {
+            "date": 1692336115975,
+            "name": "/Users/cuijian/work/server/dist/logs/error.log.20230818.20230818",
+            "hash": "9d08775f39e34d00bbe80225f2156032"
+        },
+        {
+            "date": 1692336115975,
+            "name": "/Users/cuijian/work/server/dist/logs/fatal.log.20230818.20230818",
+            "hash": "02c660edd868e1d478f13a22f4d74f4e"
+        },
+        {
+            "date": 1692336356759,
+            "name": "/Users/cuijian/work/server/dist/logs/info.log.20230818.20230818",
+            "hash": "a47f10d933cdd5850e4874aea9c41909"
+        },
+        {
+            "date": 1692379323807,
+            "name": "/Users/cuijian/work/server/dist/logs/info.log.20230819.0",
+            "hash": "2ec13ba1d80c68754be97e0a79ff70dc"
+        },
+        {
+            "date": 1692379323808,
+            "name": "/Users/cuijian/work/server/dist/logs/debug.log.20230819.20230819",
+            "hash": "ffd4ece371bc79b42613c77e6093856b"
+        },
+        {
+            "date": 1692379323808,
+            "name": "/Users/cuijian/work/server/dist/logs/warn.log.20230819.20230819",
+            "hash": "f136d362890e0af4a6b8963539b6398d"
+        },
+        {
+            "date": 1692379323808,
+            "name": "/Users/cuijian/work/server/dist/logs/error.log.20230819.20230819",
+            "hash": "28526e93d1109773c1cff86ffc5a1b56"
+        },
+        {
+            "date": 1692379323809,
+            "name": "/Users/cuijian/work/server/dist/logs/fatal.log.20230819.20230819",
+            "hash": "53209ef6892b77fe6303b6eff59e1dbb"
+        },
+        {
+            "date": 1692379324534,
+            "name": "/Users/cuijian/work/server/dist/logs/info.log.20230819.20230819",
+            "hash": "bc8d538eebaf6a1d898580f09dd8f4e6"
+        }
+    ]
+}

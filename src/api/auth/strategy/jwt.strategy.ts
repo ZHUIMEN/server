@@ -86,14 +86,16 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     /**判断是否存在*/
     const exists = await authService.checkToken(token);
-    if (exists <= 0) {
+    if (Number(exists) <= 0) {
       throw new UserException('token 已过期', ApiErrorCode.TOKEN_INVAL);
     }
-
+    // 在redis里取值 判断是否存在
     const cacheUser = (await authService.getRedisKeyToValue(token)) as FindAccountType<AccountEntity> | any;
     if (cacheUser?.id !== payload.userId || cacheUser?.username !== payload.userName) {
       throw new UserException('token 不正确', ApiErrorCode.TOKEN_INVAL);
     }
+    /**如果token小于3天,即在倒数第3天时 请求，重置过期时间 */
+    // authService.resetToken(cacheUser, token, request);
 
     /** 过时的： 这里不需要查询数据验证，可以同上redis里取值*/
     // const existUser = await authService.checkDBValidateJwt(payload.userId);
@@ -101,9 +103,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // if (!existUser) {
     //   throw new UserException('token 已过期', ApiErrorCode.TOKEN_INVAL);
     // }
-    /**如果token小于3天,即在倒数第3天时 请求，重置过期时间 */
-
-    authService.resetToken(cacheUser, token, request);
 
     return { ...payload, userId: payload.userId, userName: payload.userName };
   }

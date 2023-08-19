@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './db/mysql.modules';
+import { MongoModule } from './db/mongo.modules';
 import { UserModule } from './user/user.module';
 import { LoggerModule } from 'nestjs-pino';
 import { pinoHttpOption } from './common/logger/pino-http-option.config';
@@ -34,6 +35,7 @@ import { createDirIfNotExists } from '@src/utils';
       },
     }),
     DatabaseModule,
+    MongoModule,
     UserModule,
     ApiModule,
   ],
